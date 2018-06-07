@@ -11,27 +11,66 @@ and open the template in the editor.
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script src="js/jquery.min.js"></script>
         <script type="text/javascript">
+        function getDataSelects(){
+            $.ajax({
+                type: 'GET',
+                url: 'CalculosServlet',
+                success: function(response){
+                    $("#slc_divisa_inicial").append(response);
+                    $("#slc_divisa_conversion").append(response);
+                },
+                error: function(response) {
+                    alert('error');
+                }
+            });
+        }
         $(document).ready(function(){
-            /*$("").click(function(){
+            $("button").click(function(){
                 $.ajax({
                     type: 'POST',
-                    url: 'Calculos',
-                    data: { numero_uno:$("#txt_numero_uno").val(),
-                            numero_dos:$("#txt_numero_dos").val()},
+                    url: 'CalculosServlet',
+                    data: { cantidad_inicial:$("#txt_cantidad_inicial").val(),
+                            divisa_inicial:$("#slc_divisa_inicial option:selected").val(),
+                            divisa_convertida:$("#slc_divisa_conversion option:selected").val()},
                     success: function(response) {
-                        $("#div1").html(response);
+                        $("#txt_cantidad_convertida").val(response);
                     },
                     error: function(response) {
-                        $("#div1").html(response);
+                        $("#txt_cantidad_convertida").val(response.statusText);
                     }
                 });
-               
-            });*/
-            
+            });
         });
         </script>
     </head>
-    <body>
-        <div>TODO write content</div>
+    <body onload="getDataSelects()">
+        <table>
+            <tr>
+                <td colspan="2"><center><h1>Conversor de divisas</h1></center></td>
+            </tr>
+            <tr>
+                <td>Cantidad Inicial</td>
+                <td>Cantidad Convertida</td>
+            </tr>
+            <tr>
+                <td><input type="number" id="txt_cantidad_inicial"><br><br></td>
+                <td><input type="number" id="txt_cantidad_convertida"><br><br></td>
+            </tr>
+            <tr>
+                <td>De</td>
+                <td>A</td>
+            </tr>
+            <tr>
+                <td><select id="slc_divisa_inicial">
+                    </select></td>
+                <td><select id="slc_divisa_conversion">
+                    </select></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <br><center><button>Calcular</button></center>
+                </td>
+            </tr>
+        </table>
     </body>
 </html>

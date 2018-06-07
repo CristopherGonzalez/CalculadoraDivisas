@@ -13,6 +13,7 @@ import javax.ejb.Local;
  * @author crist
  */
 @Local
-public interface DivisasSBLocal {
+public interface CalculosSBLocal {
+    public double calculo_conversion(int cantidad_inicial, String divisa_de, String divisa_a);
     public List<String> ObtenerDivisas();
 }
