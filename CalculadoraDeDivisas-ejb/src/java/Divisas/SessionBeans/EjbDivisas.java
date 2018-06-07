@@ -14,7 +14,7 @@ import javax.ejb.Stateless;
  * @author crist
  */
 @Stateless
-public class CalculosSB implements CalculosSBLocal {
+public class EjbDivisas implements EjbDivisasLocal {
 
     @Override
     public double calculo_conversion(int cantidad_inicial, String divisa_inicio, String divisa_conversion){

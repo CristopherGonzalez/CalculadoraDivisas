@@ -5,7 +5,6 @@
  */
 package CalculadoraDeDivisas.Calculos.Servlet;
 
-import Divisas.SessionBeans.CalculosSBLocal;
 import java.io.Console;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -15,6 +14,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import Divisas.SessionBeans.EjbDivisasLocal;
 
 /**
  *
@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 public class CalculosServlet extends HttpServlet {
 
     @EJB
-    private CalculosSBLocal calculosSB;
+    private EjbDivisasLocal ejbDivisas;
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -38,8 +38,7 @@ public class CalculosServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        List<String> listado_divisas = calculosSB.ObtenerDivisas();
-        response.setContentType("text/html");
+        List<String> listado_divisas = ejbDivisas.ObtenerDivisas();
         response.setHeader("Cache-Control", "no-cache");
         for (int i = 0; i < listado_divisas.size(); i++) {
             response.getWriter().write("<option value="+ listado_divisas.get(i).substring(0,3) + ">" + listado_divisas.get(i).substring(5) + "</option>");
@@ -65,7 +64,7 @@ public class CalculosServlet extends HttpServlet {
         System.out.println("divisa_inicial " + divisa_inicial);
         System.out.println("divisa_convertida " + divisa_convertida);
         int c_inicial = Integer.parseInt(cantidad_inicial);
-        double cantidad_convertida = calculosSB.calculo_conversion(c_inicial, divisa_inicial, divisa_convertida);
+        double cantidad_convertida = ejbDivisas.calculo_conversion(c_inicial, divisa_inicial, divisa_convertida);
         System.out.println(cantidad_convertida);
         response.setContentType("text/html");
         response.setHeader("Cache-Control", "no-cache");
